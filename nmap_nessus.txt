@@ -1,0 +1,14 @@
+----installatoin---------
+sudo apt install curl
+curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb > msfinstall && \
+  chmod 755 msfinstall && \
+  ./msfinstall
+msfconsole
+
+nmap -sn 192.168.11.7
+nmap -sT 192.168.11.7 -p-
+nmap -sT 192.168.11.7 -p- -sV -A
+sudo nmap -O 192.168.11.7
+
+----install nessus -----
+https://linux.how2shout.com/how-to-install-configure-nessus-on-ubuntu-20-04/

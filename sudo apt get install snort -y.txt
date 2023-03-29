@@ -1,0 +1,23 @@
+sudo apt get install snort -y
+sudo ip link set enp0 promisc on
+ls -al /etc/snort
+sudo vim /etc/snort/snort.conf
+wget https://www.snort.org/rules/snortrules-snapshot-2983.tar.gz?oinkcode=<your oink code goes here> -O snortrules-snapshot-2983.tar.gz
+sudo tar -xvzf snortrules-snapshot-2983.tar.gc -C /etc/snort/rules
+sudo snort -d -l /var/log/snort/ -h 192.168.1.0/24 -A console -c /etc/snort/snort.conf
+
+##set ipvar home_net 
+
+
+RUN HTTP
+sudo python3 -m htto.server.80
+
+RUN 
+ping google.com
+
+
+2)
+sudo vim /etc/snort/rules/local.rules
+alert icmp any any -> $HOME_NET any (msg:'ICMP Ping Detected';sid:100001;rev:1;)
+sudo snort -d -l /var/log/snort/ -h 192.168.1.0/24 -A console -c /etc/snort/snort.conf
+ping from other os

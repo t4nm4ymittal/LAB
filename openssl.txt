@@ -1,0 +1,15 @@
+openssl genrsa -aes128 -out alice_private.pem 1024
+ls -l alice_private.pem 
+openssl genrsa -aes128 -out bob_private.pem 1024
+ls -l bob_private.pem
+head alice_private.pem
+openssl rsa -in alice_private.pem -noout -text
+openssl rsa -in alice_private.pem -pubout > alice_public.pem
+ls -l *.pem
+openssl rsa -in alice_public.pem -pubin -text -noout
+scp alice_public.pem bob@bob-machine-or-ip:/path/
+scp bob_public.pem alice@alice-machine-or-ip:/path/
+echo "vim or emacs ?" > top_secret.txt
+openssl rsautl -encrypt -inkey bob_public.pem -pubin -in top_secret.txt -out top_secret.enc
+ cat top_secret.enc
+openssl rsautl -decrypt -inkey bob_private.pem -in top_secret
