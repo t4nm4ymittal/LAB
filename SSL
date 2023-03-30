@@ -1,0 +1,87 @@
+Syntax: To encode with base64, the following command is used:
+openssl enc -base64 -in input-file -out output-file
+To decode with base64, the following command is used:
+openssl enc -base64 -d -in input-file -out output-file
+
+SIGNATURE
+g) Syntax: To hash a file, we use:
+h) openssl dgst -md5 -out hash file
+i)
+Syntax: To sign a hash, we use:
+j) openssl rsautl -sign -in hash -inkey key -out signature
+k) Should we use the public key or the private key for a signature? Syntax: To verify a signature, we
+use: openssl rsautl -verify -in signature -pubin -inkey public-key -out hash2 Exercise 5.16: Sign a
+message.
+l) Verify the signature. You can use the tool diff.
+m) Create three messages. Sign all of them. Slightly modify one or two of them, and send them to
+your lab partner, together with the signatures. Ask him/her to determine which messages were
+modified.
+
+
+Certificate generation
+a) Syntax: To generate a certificate, a request has to be created first:
+openssl req -new -key key -out request
+Remark: The key has to be large enough to sign the certificate. Generally, a 1024-bit key should
+be sufficient.
+b) Create a certificate request called user-request.pem, concerning an entity called user. This request
+is waiting to be signed by a certification authority.
+Syntax: To visualize a certificate request or a certificate, we use:
+openssl x509 -in certificate -text -noout
+c) Visualize the content of the certificate request.
+Create a pair of keys for the certification authority. Create a certificate request called
+carequest.pem and concerning the certificate authority (referred to as CA).
+Syntax: To autosign a certificate request, we use:
+openssl x509 -req -in request -signkey private-key -out certificate
+d) Autosign the certificate request of CA in a certificate called ca-certificate.pem.
+e) Visualize the certificate ca-certificate.pem.
+Syntax: To sign a certificate request, we use:
+openssl x509 -days duration -CAserial serial -CA certificate -CAkey key -in request -req -out
+certificate
+The file serial contains a number stored in hexadecimal (using an even number of hexadecimal
+digits).
+
+f) Sign the certificate request user-request.pem to produce a certificate user-certificate.pem.
+Syntax: To verify a certificate, use:
+openssl verify -CAfile ca-certificate certificate
+g) Verify the certificate user-certificate.pem.
+h) Modify the content of the certificate user-certificate.pem and try to verify it.
+Certification chain
+• Create two certification authorities CA1 and CA2. CA1 is the root certification authority, and
+CA2 is certified by CA1.
+• Create a certificate request and sign it by CA2.
+• Verify the complete certification chain.
+Final Assignment on OpenSSL
+Generate two files like in the following.
+file.txt
+000000000000000
+111111111111111
+222222222222222
+000000000000000
+111111111111111
+222222222222222
+000000000000000
+111111111111111
+222222222222222
+
+modified_file.txt (only one DIGIT change)
+000000000000000
+111111111111111
+222222222222222
+000000010000000
+111111111111111
+222222222222222
+000000000000000
+111111111111111
+222222222222222
+Use AES encryption and mode of operation ECB and CBC to analyze the cipher text.
+Use syntax like in the following
+$ openssl aes-256-ecb -e -in file.txt -out cipher_ecb.bin -nosalt
+
+After use
+$xxd cipher_ecb.bin
+Observe the output you will able to understand the known plaintext
+Same way find another mode of operation CBC.
+$ openssl aes-256-cbc -e -in file.txt -out cipher_cbc.bin -nosalt
+After use
+$xxd cipher_cbc.bin
+Find the observations
